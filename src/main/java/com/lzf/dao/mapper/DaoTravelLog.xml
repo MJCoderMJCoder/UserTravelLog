@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzf.dao.IDaoTravelLog">
+
+	<insert id="insert" useGeneratedKeys="true"
+		keyProperty="travelLogId">
+		insert
+		into travellog (travelLogUser, travelLogImg,
+		travelLogTxt, travelLogPraise) values
+		(#{travelLogUser},
+		#{travelLogImg},
+		#{travelLogTxt},
+		#{travelLogPraise})
+	</insert>
+
+	<resultMap id="travelLogResultMap" autoMapping="true"
+		type="com.lzf.entity.TravelLog">
+		<id column="travelLogId" jdbcType="INTEGER" property="travelLogId" />
+		<result column="travelLogUser" jdbcType="INTEGER"
+			property="travelLogUser" />
+		<result column="travelLogTime" jdbcType="TIMESTAMP"
+			property="travelLogTime" />
+		<result column="travelLogImg" jdbcType="VARCHAR"
+			property="travelLogImg" />
+		<result column="travelLogTxt" jdbcType="VARCHAR"
+			property="travelLogTxt" />
+		<result column="travelLogPraise" jdbcType="INTEGER"
+			property="travelLogPraise" />
+		<association property="user"
+			javaType="com.lzf.entity.User">
+			<id column="travelLogUser" jdbcType="INTEGER" property="userId" />
+			<result column="travelLogUPortrait" jdbcType="VARCHAR"
+				property="userPortrait" />
+			<result column="travelLogUN" jdbcType="VARCHAR"
+				property="userName" />
+			<result column="travelLogUA" jdbcType="VARCHAR"
+				property="userAccount" />
+			<result column="travelLogUQ" jdbcType="VARCHAR"
+				property="userQQ" />
+			<result column="travelLogUPhone" jdbcType="VARCHAR"
+				property="userPhone" />
+			<result column="travelLogEmail" jdbcType="VARCHAR"
+				property="userEmail" />
+			<result column="travelLogUPwd" jdbcType="VARCHAR"
+				property="userPassword" />
+			<result column="travelLogUT" jdbcType="INTEGER"
+				property="userType" />
+			<result column="travelLogUC" jdbcType="VARCHAR"
+				property="userConfidante" />
+		</association>
+		<collection property="comments"
+			ofType="com.lzf.entity.Comment">
+			<id property="commentId" jdbcType="INTEGER" column="commentId" />
+			<result column="commentUser" jdbcType="INTEGER"
+				property="commentUser" />
+			<result column="commentsTime" jdbcType="TIMESTAMP"
+				property="commentsTime" />
+			<result column="commentTxt" jdbcType="VARCHAR"
+				property="commentTxt" />
+			<result column="commentsTravelLog" jdbcType="INTEGER"
+				property="commentsTravelLog" />
+			<association property="user"
+				javaType="com.lzf.entity.User">
+				<id column="commentUser" jdbcType="INTEGER" property="userId" />
+				<result column="commentUPortrait" jdbcType="VARCHAR"
+					property="userPortrait" />
+				<result column="commentUN" jdbcType="VARCHAR"
+					property="userName" />
+				<result column="commentUA" jdbcType="VARCHAR"
+					property="userAccount" />
+				<result column="commentUQ" jdbcType="VARCHAR"
+					property="userQQ" />
+				<result column="commentUPhone" jdbcType="VARCHAR"
+					property="userPhone" />
+				<result column="commentUE" jdbcType="VARCHAR"
+					property="userEmail" />
+				<result column="commentUPwd" jdbcType="VARCHAR"
+					property="userPassword" />
+				<result column="commentUT" jdbcType="INTEGER"
+					property="userType" />
+				<result column="commentUC" jdbcType="VARCHAR"
+					property="userConfidante" />
+			</association>
+		</collection>
+	</resultMap>
+	<select id="dimSelect" resultMap="travelLogResultMap">
+		select * from
+		(select
+		t.travelLogId, t.travelLogUser, t.travelLogTime, t.travelLogImg,
+		t.travelLogTxt, t.travelLogPraise, u.userPortrait travelLogUPortrait,
+		u.userName travelLogUN,
+		u.userAccount travelLogUA, u.userQQ
+		travelLogUQ, u.userPhone travelLogUPhone,
+		u.userEmail travelLogEmail,
+		u.userPassword travelLogUPwd, u.userType travelLogUT, u.userConfidante
+		travelLogUC
+		from travellog t left join user u on
+		t.travelLogUser=u.userId) tu
+		left join
+		(select c.commentId,
+		c.commentUser, c.commentsTime, c.commentTxt,
+		c.commentsTravelLog,
+		u.userPortrait commentUPortrait, u.userName
+		commentUN,
+		u.userAccount
+		commentUA, u.userQQ commentUQ, u.userPhone commentUPhone, u.userEmail
+		commentUE, u.userPassword commentUPwd, u.userType commentUT,
+		u.userConfidante commentUC from comment c join user u on
+		c.commentUser=u.userId) cu
+		on tu.travelLogId=cu.commentsTravelLog
+		where
+		travelLogId like #{travelLogId} or
+		travelLogUser like #{travelLogUser}
+		or
+		travelLogTime like binary #{travelLogTime} or
+		travelLogImg like
+		#{travelLogImg} or
+		travelLogTxt like
+		#{travelLogTxt} or
+		travelLogPraise
+		like #{travelLogPraise}
+		order by
+		travelLogTime DESC
+	</select>
+	<!-- travelLogTime like #{travelLogTime} or -->
+
+	<update id="praise">
+		update travellog set travelLogPraise =
+		travelLogPraise+1 where travelLogId=#{travelLogId}
+	</update>
+
+	<delete id="delete">
+		delete from travellog where
+		travelLogId=#{travelLogId}
+	</delete>
+</mapper>

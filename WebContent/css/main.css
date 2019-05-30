@@ -1,0 +1,81 @@
+@charset "UTF-8";
+
+/*html5*/
+article, aside, dialog, footer, header, section, nav, figure, menu, main {
+	display: block
+}
+/* 禁止用户选择网页内容 */
+body {
+	-webkit-user-select: none;
+}
+
+/* topBanner顶部横幅最左边的logo图标 */
+.img-fluid {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	width: 50px;
+}
+
+/* 覆盖bootstrap的row样式：去除Margin(外边距) - 清除边框外的区域，外边距是透明的。 */
+.row {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.container-fluid {
+	padding: 0;
+}
+
+/* 除去顶部横幅后的主界面的高度 */
+.container-fluid .table-responsive {
+	position: fixed;
+	z-index: 0;
+	overflow: auto;
+	border-bottom-color: red;
+	border-bottom-style: solid;
+	border-bottom-width: 0px;
+}
+
+/* 去掉表格边框 */
+.table tr td {
+	border: white 0px solid;
+}
+
+/* 弹出的模态框 */
+#entryScenicModal, #publishADModal {
+	z-index: 1;
+	width: 100%;
+	position: fixed;
+	height: 100%;
+	padding: 0;
+	display: none;
+}
+
+/* 弹出的模态框背景 */
+#entryScenicModalBg, #publishADModalBg {
+	background-color: black;
+	opacity: 0.5;
+	z-index: 2;
+	width: 100%;
+	position: fixed;
+	height: 100%;
+}
+
+/* 弹出的模态框主要内容 */
+#entryScenicModal .row, #publishADModal .row {
+	z-index: 4;
+	padding-bottom: 20px;
+}
+/* 弹出的模态框主要内容 */
+/* #entryScenicModal .row .modal-content {
+	height: 350px;
+} */
+
+/* 除去顶部横幅后的主界面的高度 */
+.container-fluid .row {
+	height: 100%;
+	margin-left: -10px;
+	z-index: 0;
+	position: relative;
+}

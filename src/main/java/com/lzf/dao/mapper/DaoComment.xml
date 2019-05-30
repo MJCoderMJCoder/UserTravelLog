@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzf.dao.IDaoComment">
+
+	<insert id="insert" useGeneratedKeys="true"
+		keyProperty="commentId">
+		insert
+		into comment (commentUser, commentTxt,
+		commentsTravelLog) values
+		(#{commentUser}, #{commentTxt},
+		#{commentsTravelLog})
+	</insert>
+
+	<delete id="deleteByTravelLogId">
+		delete from comment where
+		commentsTravelLog=#{travelLogId}
+	</delete>
+</mapper>
